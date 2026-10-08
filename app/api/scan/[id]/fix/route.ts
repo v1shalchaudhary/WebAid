@@ -34,9 +34,12 @@ export async function GET(
     .prepare("SELECT id, isPaid FROM users WHERE id = ?")
     .get(session.userId) as UserRow | undefined;
 
-  if (!user) {
-    return Response.json({ error: "Account not found." }, { status: 404 });
-  }
+if (!user) {
+  return Response.json(
+    { error: "Your session is no longer valid. Please sign in again." },
+    { status: 401 }
+  );
+}
 
   // 2. Paid users always get access. Free users get it until they exceed quota.
   if (!user.isPaid) {
@@ -58,6 +61,9 @@ export async function GET(
   const scan = db.prepare("SELECT * FROM scans WHERE id = ?").get(id) as
     | ScanRow
     | undefined;
+    
+    console.log("Looking for scan id:", id);
+    console.log("Found scan:", scan);
 
   if (!scan) {
     return Response.json({ error: "Scan not found." }, { status: 404 });

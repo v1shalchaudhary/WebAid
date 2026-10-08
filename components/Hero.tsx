@@ -61,7 +61,7 @@ export default function Hero() {
     }
   }
 
-  async function handleSeeFixes() {
+async function handleSeeFixes() {
   if (!result) return;
   setFixState("loading");
 
@@ -73,11 +73,6 @@ export default function Hero() {
       setFixState("need-login");
     } else if (res.status === 402) {
       setFixState("need-upgrade");
-      {fixState === "error" && (
-  <div className="mt-5 text-[13.5px] text-bad">
-    Something went wrong loading fixes. Check the browser console for details.
-  </div>
-)}
     } else if (res.ok) {
       setFixes(data.fixes);
       setFixState("ready");
