@@ -10,10 +10,8 @@ db.exec(`
     passwordHash TEXT NOT NULL,
     isPaid INTEGER NOT NULL DEFAULT 0,
     createdAt TEXT NOT NULL
-  )
-`);
+  );
 
-db.exec(`
   CREATE TABLE IF NOT EXISTS scans (
     id TEXT PRIMARY KEY,
     userId TEXT,
@@ -23,7 +21,14 @@ db.exec(`
     responseTimeMs INTEGER,
     issues TEXT NOT NULL,
     createdAt TEXT NOT NULL
-  )
+  );
+
+  CREATE TABLE IF NOT EXISTS fix_unlocks (
+    userId TEXT NOT NULL,
+    scanId TEXT NOT NULL,
+    createdAt TEXT NOT NULL,
+    PRIMARY KEY (userId, scanId)
+  );
 `);
 
 export default db;

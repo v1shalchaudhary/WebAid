@@ -1,31 +1,39 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import Link from "next/link";
 import AnimatedButton from "./AnimatedButton";
 import AuthModal from "./AuthModal";
 
-type User = { id: string; email: string; isPaid: boolean };
+type User = { id: string; email: string; isPaid: boolean; isAdmin: boolean };
 
 export default function Header() {
   const [user, setUser] = useState<User | null>(null);
   const [showModal, setShowModal] = useState(false);
 
-  useEffect(() => {
-    fetch("/api/auth/me")
-      .then((res) => res.json())
-      .then((data) => setUser(data.user ?? null))
-      .catch(() => setUser(null));
+  const loadUser = useCallback(async () => {
+    try {
+      const res = await fetch("/api/auth/me");
+      const data = await res.json();
+      setUser(data.user ?? null);
+    } catch {
+      setUser(null);
+    }
   }, []);
+
+  useEffect(() => {
+    loadUser();
+  }, [loadUser]);
 
   async function handleSignOut() {
     await fetch("/api/auth/logout", { method: "POST" });
-    setUser(null);
+    window.location.href = "/";
   }
 
   return (
     <header className="pt-7">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2.5 font-semibold text-lg tracking-tight">
+      <div className="flex items-center justify-between gap-4">
+        <Link href="/" className="flex items-center gap-2.5 font-semibold text-lg tracking-tight">
           <svg className="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none">
             <path
               d="M2 12h4l2 7 4-14 2 7h8"
@@ -36,18 +44,18 @@ export default function Header() {
             />
           </svg>
           SiteVitals
-        </div>
+        </Link>
 
         <nav className="hidden md:flex gap-7 text-[14.5px] text-muted">
-          <a href="#vitals" className="hover:text-white">How it works</a>
-          <a href="#pricing" className="hover:text-white">Pricing</a>
-          <a href="#log" className="hover:text-white">Sample scan</a>
+          <Link href="/#pricing" className="hover:text-white">Pricing</Link>
+          {user && <Link href="/profile" className="hover:text-white">Profile</Link>}
+          {user?.isAdmin && <Link href="/admin" className="hover:text-white">Admin</Link>}
         </nav>
 
         <div className="flex items-center gap-4">
           {user ? (
             <>
-              <span className="text-[13.5px] text-muted font-mono truncate max-w-[140px]">
+              <span className="hidden sm:inline text-[13.5px] text-muted font-mono truncate max-w-[160px]">
                 {user.email}
               </span>
               <AnimatedButton
@@ -65,19 +73,26 @@ export default function Header() {
               Sign in
             </AnimatedButton>
           )}
-          <AnimatedButton className="bg-brand hover:bg-[#8d7fff] text-ink font-semibold text-[14.5px] px-[18px] py-[10px] rounded-[7px]">
+          <Link
+            href="/"
+            className="bg-brand hover:bg-[#8d7fff] text-ink font-semibold text-[14.5px] px-[18px] py-[10px] rounded-[7px]"
+          >
             Scan your site
-          </AnimatedButton>
+          </Link>
         </div>
       </div>
 
       {showModal && (
         <AuthModal
           onClose={() => setShowModal(false)}
-          onSuccess={(loggedInUser) => {
-            setUser(loggedInUser);
-            setShowModal(false);
-          }}
+       onSuccess={async () => {
+         const res = await fetch("/api/auth/me");
+         const data = await res.json();
+         setUser(data.user ?? null);
+         setShowModal(false);
+         window.dispatchEvent(new Event("auth-changed"));
+         if (data.user?.isAdmin) window.location.href = "/admin";
+       }}
         />
       )}
     </header>

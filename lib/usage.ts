@@ -1,20 +1,32 @@
 import db from "./db";
 
-type CountRow = { count: number };
+export const FREE_FIXES_PER_MONTH = 3;
 
-// Counts how many scans this user has made since the 1st of the current month.
-export function getMonthlyScanCount(userId: string): number {
-  const startOfMonth = new Date();
-  startOfMonth.setDate(1);
-  startOfMonth.setHours(0, 0, 0, 0);
+export function startOfMonthISO(): string {
+  const d = new Date();
+  d.setDate(1);
+  d.setHours(0, 0, 0, 0);
+  return d.toISOString();
+}
 
+// How many different scans this user has unlocked fixes for this month.
+export function getMonthlyFixCount(userId: string): number {
   const row = db
-    .prepare(
-      `SELECT COUNT(*) as count FROM scans WHERE userId = ? AND createdAt >= ?`
-    )
-    .get(userId, startOfMonth.toISOString()) as CountRow;
-
+    .prepare("SELECT COUNT(*) AS count FROM fix_unlocks WHERE userId = ? AND createdAt >= ?")
+    .get(userId, startOfMonthISO()) as { count: number };
   return row.count;
 }
 
-export const FREE_SCANS_PER_MONTH = 3;
+export function hasUnlocked(userId: string, scanId: string): boolean {
+  return !!db
+    .prepare("SELECT 1 FROM fix_unlocks WHERE userId = ? AND scanId = ?")
+    .get(userId, scanId);
+}
+
+export function recordUnlock(userId: string, scanId: string) {
+  db.prepare("INSERT OR IGNORE INTO fix_unlocks (userId, scanId, createdAt) VALUES (?, ?, ?)").run(
+    userId,
+    scanId,
+    new Date().toISOString()
+  );
+}

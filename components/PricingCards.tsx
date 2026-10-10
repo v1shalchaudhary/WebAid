@@ -31,7 +31,7 @@ export default function PricingCards() {
             Check your vitals, see what&apos;s wrong.
           </div>
           <ul className="text-[13.5px] mb-5">
-            {["3 scans a month", "Full vitals & health score", "Issue log with severity"].map(
+            {["Unlimited scans", "Full health score & issue log", "3 step-by-step fixes a month"].map(
               (item) => (
                 <li key={item} className="py-1.5 border-t border-line first:border-none flex gap-2">
                   <span className="text-good">✓</span> {item}
@@ -55,8 +55,8 @@ export default function PricingCards() {
           <ul className="text-[13.5px] mb-5">
             {[
               "Unlimited scans",
-              "Step-by-step fix instructions",
-              "GitHub & project file uploads",
+              "Unlimited step-by-step fixes",
+              "GitHub & project file uploads (coming soon)",
             ].map((item) => (
               <li key={item} className="py-1.5 border-t border-line first:border-none flex gap-2">
                 <span className="text-good">✓</span> {item}

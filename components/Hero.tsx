@@ -140,7 +140,7 @@ async function handleSeeFixes() {
           {error && <div className="mt-3.5 text-[13px] text-bad">{error}</div>}
           {!error && (
             <div className="mt-3.5 text-[13px] text-muted">
-              3 free scans a month. No card required.
+              Unlimited scans. 3 free step-by-step fixes a month.
             </div>
           )}
         </div>
@@ -219,7 +219,7 @@ async function handleSeeFixes() {
       {fixState === "need-upgrade" && (
         <div className="mt-5 bg-panel border border-branddim rounded-xl p-5 flex items-center justify-between gap-4 flex-wrap">
           <span className="text-[13.5px] text-muted">
-            You&apos;re signed in — upgrade to Pro to unlock these fixes.
+            You&apos;ve used your 3 free step-by-step fixes this month. Upgrade to Pro for unlimited fixes.
           </span>
           <AnimatedButton
             onClick={handleUpgrade}
