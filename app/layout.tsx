@@ -2,7 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "SiteVitals — Diagnose your site",
+  title: "WebAid — Diagnose your site",
   description:
     "Find out what's actually wrong with your site — then fix it, step by step.",
 };

@@ -73,7 +73,7 @@ export default function PricingCards() {
           ) : (
             <AnimatedButton
               onClick={handleUpgrade}
-              className="w-full bg-brand hover:bg-[#8d7fff] text-ink font-semibold rounded-lg py-2.5"
+              className="w-full btn-glass font-semibold rounded-lg py-2.5"
             >
               {status === "loading" ? "Upgrading..." : "Upgrade to Pro"}
             </AnimatedButton>

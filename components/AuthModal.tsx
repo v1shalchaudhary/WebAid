@@ -96,7 +96,7 @@ export default function AuthModal({
           <polyline
             points="0,30 60,30 75,8 90,52 105,30 180,30 195,12 210,48 225,30 300,30 315,8 330,52 345,30 400,30"
             fill="none"
-            stroke="#7C6CFF"
+            stroke="#E4E4E7"
             strokeWidth="2"
             strokeLinejoin="round"
             strokeLinecap="round"
@@ -153,7 +153,7 @@ export default function AuthModal({
 
         <AnimatedButton
           onClick={handleSubmit}
-          className="w-full mt-5 bg-brand hover:bg-[#8d7fff] text-ink font-semibold text-[14.5px] py-3 rounded-lg disabled:opacity-60"
+          className="w-full mt-5 btn-glass font-semibold text-[14.5px] py-3 rounded-lg disabled:opacity-60"
         >
           {loading ? "Please wait..." : mode === "login" ? "Log in" : "Create account"}
         </AnimatedButton>

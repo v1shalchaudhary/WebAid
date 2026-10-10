@@ -90,13 +90,13 @@ export default function ProfilePage() {
                     </div>
                     <div className="h-2 rounded-full bg-panel2 overflow-hidden mb-5">
                       <div
-                        className={`h-full rounded-full ${full ? "bg-bad" : "bg-brand"}`}
+                        className={`h-full rounded-full ${full ? "bg-bad" : "bar-glass"}`}
                         style={{ width: `${pct}%` }}
                       />
                     </div>
                     <AnimatedButton
                       onClick={upgrade}
-                      className="bg-brand hover:bg-[#8d7fff] text-ink font-semibold text-[14px] px-5 py-2.5 rounded-lg"
+                      className="btn-glass font-semibold text-[14px] px-5 py-2.5 rounded-lg"
                     >
                       Upgrade to Pro
                     </AnimatedButton>

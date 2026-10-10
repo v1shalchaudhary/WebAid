@@ -115,7 +115,7 @@ async function handleSeeFixes() {
           </h1>
 
           <p className="text-[17px] leading-relaxed text-muted max-w-[460px] mb-8">
-            Drop in a URL and SiteVitals reads its vitals across performance,
+            Drop in a URL and WebAid reads its vitals across performance,
             security, and SEO, scoring it like a health bar —{" "}
             <span className="font-mono text-brand">100%</span> clean, or
             somewhere short of it.
@@ -131,7 +131,7 @@ async function handleSeeFixes() {
             />
             <AnimatedButton
               onClick={handleScan}
-              className="bg-brand hover:bg-[#8d7fff] text-ink font-semibold text-[14.5px] px-[22px] rounded-lg whitespace-nowrap disabled:opacity-60"
+              className="btn-glass font-semibold text-[14.5px] px-[22px] rounded-lg whitespace-nowrap disabled:opacity-60"
             >
               {loading ? "Scanning..." : "Run diagnostic"}
             </AnimatedButton>
@@ -199,7 +199,7 @@ async function handleSeeFixes() {
         <div className="mt-5">
           <AnimatedButton
             onClick={handleSeeFixes}
-            className="bg-brand hover:bg-[#8d7fff] text-ink font-semibold text-[14px] px-6 py-3 rounded-lg"
+            className="btn-glass font-semibold text-[14px] px-6 py-3 rounded-lg"
           >
             See step-by-step fixes
           </AnimatedButton>
@@ -223,7 +223,7 @@ async function handleSeeFixes() {
           </span>
           <AnimatedButton
             onClick={handleUpgrade}
-            className="bg-brand hover:bg-[#8d7fff] text-ink font-semibold text-[13.5px] px-5 py-2.5 rounded-lg whitespace-nowrap"
+            className="btn-glass font-semibold text-[13.5px] px-5 py-2.5 rounded-lg whitespace-nowrap"
           >
             {upgrading ? "Upgrading..." : "Upgrade to Pro — $19/mo"}
           </AnimatedButton>

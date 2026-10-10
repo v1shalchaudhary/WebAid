@@ -37,13 +37,13 @@ export default function Header() {
           <svg className="w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none">
             <path
               d="M2 12h4l2 7 4-14 2 7h8"
-              stroke="#7C6CFF"
+              stroke="#E4E4E7"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
           </svg>
-          SiteVitals
+          WebAid
         </Link>
 
         <nav className="hidden md:flex gap-7 text-[14.5px] text-muted">
@@ -75,7 +75,7 @@ export default function Header() {
           )}
           <Link
             href="/"
-            className="bg-brand hover:bg-[#8d7fff] text-ink font-semibold text-[14.5px] px-[18px] py-[10px] rounded-[7px]"
+            className="btn-glass font-semibold text-[14.5px] px-[18px] py-[10px] rounded-[7px]"
           >
             Scan your site
           </Link>
