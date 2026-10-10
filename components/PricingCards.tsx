@@ -4,7 +4,7 @@ import { useState } from "react";
 import AnimatedButton from "./AnimatedButton";
 
 export default function PricingCards() {
-  const [status, setStatus] = useState<"idle" | "loading" | "done" | "need-login">("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "done" | "need-login" | "unavailable">("idle");
 
   async function handleUpgrade() {
     setStatus("loading");
@@ -12,6 +12,10 @@ export default function PricingCards() {
 
     if (res.status === 401) {
       setStatus("need-login");
+      return;
+    }
+        if (!res.ok) {
+      setStatus("unavailable");
       return;
     }
     setStatus("done");
@@ -67,6 +71,10 @@ export default function PricingCards() {
           {status === "done" ? (
             <div className="w-full btn-glass font-semibold rounded-lg py-2.5 text-center text-[14px]">
               You&apos;re on Pro 🎉
+            </div>
+                   ) : status === "unavailable" ? (
+            <div className="text-[13px] text-muted text-center">
+              Payments aren&apos;t open yet. Pro access is added manually for now.
             </div>
           ) : status === "need-login" ? (
             <div className="text-[13px] text-bad text-center">Sign in first (top right), then try again.</div>
