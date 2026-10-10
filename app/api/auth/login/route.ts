@@ -11,7 +11,9 @@ type UserRow = {
 };
 
 export async function POST(request: Request) {
-  const { email, password } = await request.json();
+    const body = await request.json().catch(() => null);
+  const email = String(body?.email ?? "").trim().toLowerCase();
+  const password = String(body?.password ?? "");
 
   if (!email || !password) {
     return Response.json({ error: "Email and password are required." }, { status: 400 });

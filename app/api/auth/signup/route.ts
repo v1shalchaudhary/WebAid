@@ -14,10 +14,12 @@ export async function POST(request: Request) {
       { status: 429 }
     );
   }
-  const { email, password } = await request.json();
+    const body = await request.json().catch(() => null);
+  const email = String(body?.email ?? "").trim().toLowerCase();
+  const password = String(body?.password ?? "");
 
-  if (!email) {
-    return Response.json({ error: "Email is required." }, { status: 400 });
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254) {
+    return Response.json({ error: "Please enter a valid email address." }, { status: 400 });
   }
 
   const passwordCheck = validatePassword(password || "");
