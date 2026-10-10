@@ -92,14 +92,7 @@ async function handleSeeFixes() {
     handleSeeFixes(); // retry immediately now that they're paid
   }
 
-  const scoreColor = result
-    ? result.score >= 80
-      ? "text-good"
-      : result.score >= 50
-        ? "text-warn"
-        : "text-bad"
-    : "text-warn";
-
+  const scoreColor = "text-white";
   return (
     <section className="py-16 md:py-[76px]">
       <div className="grid md:grid-cols-[1.15fr_0.85fr] gap-10 md:gap-14 items-center">

@@ -34,7 +34,7 @@ export default function PricingCards() {
             {["Unlimited scans", "Full health score & issue log", "3 step-by-step fixes a month"].map(
               (item) => (
                 <li key={item} className="py-1.5 border-t border-line first:border-none flex gap-2">
-                  <span className="text-good">✓</span> {item}
+                  <span className="text-white">✓</span> {item}
                 </li>
               )
             )}
@@ -59,13 +59,13 @@ export default function PricingCards() {
               "GitHub & project file uploads (coming soon)",
             ].map((item) => (
               <li key={item} className="py-1.5 border-t border-line first:border-none flex gap-2">
-                <span className="text-good">✓</span> {item}
+                <span className="text-white">✓</span> {item}
               </li>
             ))}
           </ul>
 
           {status === "done" ? (
-            <div className="w-full bg-good/15 text-good font-semibold rounded-lg py-2.5 text-center text-[14px]">
+            <div className="w-full btn-glass font-semibold rounded-lg py-2.5 text-center text-[14px]">
               You&apos;re on Pro 🎉
             </div>
           ) : status === "need-login" ? (

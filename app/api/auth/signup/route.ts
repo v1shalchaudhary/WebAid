@@ -3,8 +3,17 @@ import { setSessionCookie } from "@/lib/auth";
 import { validatePassword } from "@/lib/password";
 import bcrypt from "bcryptjs";
 import { randomUUID } from "crypto";
+import { checkRateLimit } from "@/lib/rateLimit";
+import { getClientIp } from "@/lib/ip";
 
 export async function POST(request: Request) {
+    const rate = checkRateLimit(`signup:${getClientIp(request)}`, 5, 60 * 60 * 1000);
+  if (!rate.allowed) {
+    return Response.json(
+      { error: "Too many sign-ups from this network. Try again later." },
+      { status: 429 }
+    );
+  }
   const { email, password } = await request.json();
 
   if (!email) {

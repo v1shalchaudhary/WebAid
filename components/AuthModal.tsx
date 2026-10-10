@@ -139,7 +139,7 @@ export default function AuthModal({
                 <li
                   key={rule.label}
                   className={`text-[12.5px] flex items-center gap-2 ${
-                    passed ? "text-good" : "text-muted"
+                    passed ? "text-white" : "text-muted"
                   }`}
                 >
                   <span>{passed ? "✓" : "○"}</span> {rule.label}
