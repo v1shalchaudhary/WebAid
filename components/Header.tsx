@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import AnimatedButton from "./AnimatedButton";
 import AuthModal from "./AuthModal";
@@ -11,19 +11,22 @@ export default function Header() {
   const [user, setUser] = useState<User | null>(null);
   const [showModal, setShowModal] = useState(false);
 
-  const loadUser = useCallback(async () => {
-    try {
-      const res = await fetch("/api/auth/me");
-      const data = await res.json();
-      setUser(data.user ?? null);
-    } catch {
-      setUser(null);
-    }
-  }, []);
+ 
 
-  useEffect(() => {
-    loadUser();
-  }, [loadUser]);
+   useEffect(() => {
+    let active = true;
+    fetch("/api/auth/me")
+      .then((res) => res.json())
+      .then((data) => {
+        if (active) setUser(data.user ?? null);
+      })
+      .catch(() => {
+        if (active) setUser(null);
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
 
   async function handleSignOut() {
     await fetch("/api/auth/logout", { method: "POST" });

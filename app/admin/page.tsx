@@ -14,25 +14,40 @@ type Row = {
   scanCount: number;
   fixesThisMonth: number;
 };
-
+async function fetchUsers(): Promise<Row[] | null> {
+  const res = await fetch("/api/admin/users");
+  return res.ok ? await res.json() : null;
+}
 export default function AdminPage() {
   const [rows, setRows] = useState<Row[]>([]);
   const [status, setStatus] = useState<"loading" | "ok" | "denied">("loading");
 
-  const load = useCallback(async () => {
-    const res = await fetch("/api/admin/users");
-    if (!res.ok) {
+    const load = useCallback(async () => {
+    const data = await fetchUsers();
+    if (data) {
+      setRows(data);
+      setStatus("ok");
+    } else {
       setStatus("denied");
-      return;
     }
-    setRows(await res.json());
-    setStatus("ok");
   }, []);
 
   useEffect(() => {
-    load();
+    let active = true;
+    fetchUsers().then((data) => {
+      if (!active) return;
+      if (data) {
+        setRows(data);
+        setStatus("ok");
+      } else {
+        setStatus("denied");
+      }
+    });
     window.addEventListener("auth-changed", load);
-    return () => window.removeEventListener("auth-changed", load);
+    return () => {
+      active = false;
+      window.removeEventListener("auth-changed", load);
+    };
   }, [load]);
 
   async function togglePro(row: Row) {

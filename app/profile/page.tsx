@@ -15,26 +15,38 @@ type ScanRow = { id: string; url: string; score: number; createdAt: string };
 function scoreColor(score: number) {
   return score >= 80 ? "text-good" : score >= 50 ? "text-warn" : "text-bad";
 }
-
+async function fetchProfile() {
+  const me: Me = await fetch("/api/auth/me").then((r) => r.json());
+  let scans: ScanRow[] = [];
+  if (me.user) {
+    const res = await fetch("/api/scan");
+    scans = res.ok ? await res.json() : [];
+  }
+  return { me, scans };
+}
 export default function ProfilePage() {
   const [me, setMe] = useState<Me | null>(null);
   const [scans, setScans] = useState<ScanRow[]>([]);
 
-  const load = useCallback(async () => {
-    const meData: Me = await fetch("/api/auth/me").then((r) => r.json());
-    setMe(meData);
-    if (meData.user) {
-      const res = await fetch("/api/scan");
-      setScans(res.ok ? await res.json() : []);
-    } else {
-      setScans([]);
-    }
+    const load = useCallback(async () => {
+    const data = await fetchProfile();
+    setMe(data.me);
+    setScans(data.scans);
   }, []);
 
   useEffect(() => {
-    load();
+    let active = true;
+    fetchProfile().then((data) => {
+      if (active) {
+        setMe(data.me);
+        setScans(data.scans);
+      }
+    });
     window.addEventListener("auth-changed", load);
-    return () => window.removeEventListener("auth-changed", load);
+    return () => {
+      active = false;
+      window.removeEventListener("auth-changed", load);
+    };
   }, [load]);
 
   async function upgrade() {
