@@ -65,7 +65,15 @@ export default function AdminPage() {
       <div className="max-w-[1080px] mx-auto px-7 relative z-10">
         <Header />
         <main className="py-14">
-          <h1 className="text-3xl font-bold tracking-tight mb-8">Admin</h1>
+                    <div className="flex items-center justify-between gap-4 mb-8 flex-wrap">
+            <h1 className="text-3xl font-bold tracking-tight">Admin</h1>
+            <a
+              href="/api/admin/backup"
+              className="btn-glass font-semibold text-[13.5px] px-4 py-2 rounded-lg"
+            >
+              Download backup
+            </a>
+          </div>
 
           {status === "loading" && <div className="text-[14px] text-muted">Loading…</div>}
           {status === "denied" && (
